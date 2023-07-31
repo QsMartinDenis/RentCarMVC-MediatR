@@ -1,0 +1,91 @@
+﻿@model CarDetailsViewModel
+
+<div class="site-section bg-light">
+    <div class="container">
+        <div class="row">
+            <h4>Edit - Car</h4>
+            <hr />
+            <div class="col-md-4">
+                <form asp-action="Edit" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <input type="hidden" asp-for="Id" />
+
+                    <div class="form-group">
+                        <label asp-for="CarName" class="control-label"></label>
+                        <input asp-for="CarName" class="form-control" />
+                        <span asp-validation-for="CarName" class="text-danger"></span>
+                    </div>
+                    <br />
+                    <div class="form-group">
+                        <label asp-for="Year" class="control-label"></label>
+                        <input asp-for="Year" class="form-control" />
+                        <span asp-validation-for="Year" class="text-danger"></span>
+                    </div>
+                    <br />
+                    <div class="form-group">
+                        <label asp-for="PricePerDay" class="control-label"></label>
+                        <input asp-for="PricePerDay" class="form-control" />
+                        <span asp-validation-for="PricePerDay" class="text-danger"></span>
+                    </div>
+                    <br />
+                    <div class="form-group">
+                        <label asp-for="BrandId" class="control-label"></label>
+                        <select asp-for="BrandId" class="form-control" asp-items="@(new SelectList(Model.Brands, "Id", "BrandName"))"></select>
+                    </div>
+                    <br />
+                    <div class="form-group">
+                        <label asp-for="VehicleTypeId" class="control-label"></label>
+                        <select asp-for="VehicleTypeId" class="form-control" asp-items="@(new SelectList(Model.VehicleTypes, "Id", "TypeName"))"></select>
+                    </div>
+                    <br />
+                    <div class="form-group">
+                        <label asp-for="TransmissionId" class="control-label"></label>
+                        <select asp-for="TransmissionId" class="form-control" asp-items="@(new SelectList(Model.Transmissions, "Id", "TransmissionName"))"></select>
+                    </div>
+                    <br />
+                    <div class="form-group">
+                        <label asp-for="DriveId" class="control-label"></label>
+                        <select asp-for="DriveId" class="form-control" asp-items="@(new SelectList(Model.Drives, "Id", "DriveName"))"></select>
+                    </div>
+                    <br />
+                    <div class="form-group">
+                        <label asp-for="FuelTypeId" class="control-label"></label>
+                        <select asp-for="FuelTypeId" class="form-control" asp-items="@(new SelectList(Model.FuelTypes, "Id", "FuelName"))"></select>
+                    </div>
+                    <br />
+                    <div class="form-group">
+                        <input class="form-control" type="file" asp-for="formFile" />
+                    </div>
+                    <br />
+
+                    @if (Model.Image != null && Model.Image.Length > 0)
+                    {
+                        var imageBase64 = Convert.ToBase64String(Model.Image);
+                        var imageSrc = $"data:image;base64,{imageBase64}";
+                        <img src="@imageSrc" alt="Image" width="400" height="400"/>
+                        <br />
+                    }
+                    else
+                    {
+                        <p>No image available</p>
+                    }
+                    <br />
+                    <div class="form-group">
+                        <input type="submit" value="Edit" class="btn btn-success" />
+                    </div>
+                </form>
+                <div>
+                    <a asp-action="Index">Back to List</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+

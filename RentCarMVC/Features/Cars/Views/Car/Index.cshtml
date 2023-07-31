@@ -1,0 +1,65 @@
+﻿@model IEnumerable<CarViewModel>
+
+<div class="site-section bg-light">
+    <div class="container">
+        <row class="row">
+            <div class="col-md-4">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Car</th>
+                            <th>Year</th>
+                            <th>Price per day</th>
+                            <th>Brand</th>
+                            <th>Type</th>
+                            <th>Seats</th>
+                            <th>Transmission</th>
+                            <th>Drive</th>
+                            <th>Fuel</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CarName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Year)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PricePerDay)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Brand.BrandName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.VehicleType.TypeName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.VehicleType.Seats)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Transmission.TransmissionName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Drive.DriveName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.FuelType.FuelName)
+                                </td>
+                                <td>
+                                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <a asp-action="Create" class="btn btn-success">Create</a>
+            </div>
+        </row>
+    </div>
+</div>

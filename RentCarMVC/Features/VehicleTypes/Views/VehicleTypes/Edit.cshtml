@@ -1,0 +1,40 @@
+﻿@model VehicleTypeViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<div class="site-section bg-light">
+    <div class="container">
+        <div class="row">
+            <h4>Edit - Type</h4>
+            <hr />
+            <div class="col-md-4">
+                <form asp-action="Edit" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="TypeName" class="control-label">Type name</label>
+                        <input asp-for="TypeName" class="form-control" />
+                        <span asp-validation-for="TypeName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Seats" class="control-label"></label>
+                        <input asp-for="Seats" class="form-control" />
+                        <span asp-validation-for="Seats" class="text-danger"></span>
+                    </div>
+                    <br />
+                    <div class="form-group">
+                        <input type="submit" value="Edit" class="btn btn-primary" />
+                    </div>
+                </form>
+                <div>
+                    <a asp-action="Index">Back to List</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

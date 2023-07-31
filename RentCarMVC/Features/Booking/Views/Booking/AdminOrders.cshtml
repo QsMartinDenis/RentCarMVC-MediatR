@@ -1,0 +1,96 @@
+﻿@model IEnumerable<OrderViewModel>
+
+<div class ="site-section bg-light">
+    <div class="container">
+        @if (Model.Count() > 0)
+        {
+            <row>
+                <div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Order Id</th>
+                                <th>Car Id</th>
+                                <th>Car Name</th>
+                                <th>User Id</th>
+                                <th>User Name</th>
+                                <th>Price per day</th>
+                                <th>Total Amount</th>
+                                <th>Pick Up Date</th>
+                                <th>Return Date</th>
+                                <th>Order Status</th>
+                                <th>Action</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var order in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => order.Id)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => order.Car.Id)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => order.Car.CarName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => order.UserId)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => order.UserName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => order.Car.PricePerDay)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => order.TotalAmount)
+                                    </td>
+                                    <td>
+                                        @order.PickupDate.ToString("dd-MM-yyyy")
+                                    </td>
+                                    <td>
+                                        @order.ReturnDate.ToString("dd-MM-yyyy")
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => order.OrderStatus)
+                                    </td>
+                                    @if (order.OrderStatus == "In Progress")
+                                    {
+                                        <td>
+                                            <a asp-action="Confirm" asp-route-id="@order.Id" asp-route-status="Confirmed" class="btn btn-success">Confirm</a>
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td>
+                                            <a class="btn btn-transparent"></a>
+                                        </td>
+                                    }
+                                    @if (order.OrderStatus == "Cancelled")
+                                    {
+                                        <td>
+                                            <a class="btn btn-transparent"></a>
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td>
+                                            <a asp-action="Confirm" asp-route-id="@order.Id" asp-route-status="Cancelled" class="btn btn-danger">Cancel</a>
+                                        </td>
+                                    }
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </row>
+        }
+        else
+        {
+            <h1>Orders not found</h1>
+        }
+    </div>
+</div>

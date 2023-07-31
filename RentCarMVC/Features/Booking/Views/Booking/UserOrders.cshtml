@@ -1,0 +1,93 @@
+﻿@model IEnumerable<OrderViewModel>
+
+<div class="site-section bg-light">
+    <div class="site-section bg-light">
+        <div class="container">
+            @if (Model.Count() > 0)
+            {
+                <div class="row">
+                    @foreach (var order in Model)
+                    {
+                        <div class="col-md-6 col-lg-4 mb-4">
+                            <div class="listing d-block  align-items-stretch">
+                                <div class="listing-img h-100 mr-4">
+                                    @if (order.Car.Image != null && order.Car.Image.Length > 0)
+                                    {
+                                        var imageBase64 = Convert.ToBase64String(order.Car.Image);
+                                        var imageSrc = $"data:image;base64,{imageBase64}";
+                                        <img src="@imageSrc" class="img-fluid" alt="Image" />
+                                    }
+                                </div>
+                                <div class="listing-contents h-100">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h3>@order.Car.CarName</h3>
+                                        </div>
+                                        <div class="col">
+                                            <strong style="color: #0779e4">$@order.TotalAmount</strong><span class="mx-1">/</span>Total
+                                        </div>
+                                    </div>
+                                    <div class="d-block d-md-flex mb-3 border-bottom pb-3">
+                                        <div class="listing-feature pr-4">
+                                            <div class="container">
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <strong>Brand: </strong><a>@order.Car.Brand.BrandName</a>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <strong>Year: </strong><a>@order.Car.Year</a>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <strong>Transsmision: </strong><a>@order.Car.Transmission.TransmissionName</a>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <strong>Body Type: </strong><a>@order.Car.VehicleType.TypeName</a>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <strong>Seats: </strong><a>@order.Car.VehicleType.Seats</a>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <strong>Drive: </strong><a>@order.Car.Drive.DriveName</a>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <strong>Fuel: </strong><a>@order.Car.FuelType.FuelName</a>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <strong>PickupDate: </strong><a>@order.PickupDate.ToString("dd-MM-yyyy")</a>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <strong>ReturnDate: </strong><a>@order.ReturnDate.ToString("dd-MM-yyyy")</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+            else
+            {
+                <h1>order not found</h1>
+            }
+        </div>
+    </div>
+</div>

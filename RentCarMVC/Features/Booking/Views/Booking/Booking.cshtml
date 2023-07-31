@@ -1,0 +1,95 @@
+﻿@model OrderViewModel
+
+<div class="site-section bg-light">
+    <div class="site-section bg-light">
+        <div class="container">
+            <form asp-action="Confirm" id="form1">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="row">
+                    <div class="col-2">
+
+                        <input type="hidden" asp-for="CarId" />
+                        <input type="hidden" asp-for="Car" />
+                        <label asp-for="PickupDate" class="control-label">Pickup Date</label>
+                        <input asp-for="PickupDate" class="form-control" type="date" value="@DateTime.Now">
+
+                        <label asp-for="ReturnDate" class="control-label">Return Date</label>
+                        <input asp-for="ReturnDate" class="form-control" type="date" value="@DateTime.Now">
+
+                        <br />
+                        <div>
+                            <button id="submitButton" type="submit" class="btn btn-success">Rent</button>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="row">
+                            <div class="col-md-6 col-lg-4 mb-4">
+                                <div class="listing d-block  align-items-stretch">
+                                    <div class="listing-img h-100 mr-4">
+                                        @if (Model.Car.Image != null && Model.Car.Image.Length > 0)
+                                        {
+                                            var imageBase64 = Convert.ToBase64String(Model.Car.Image);
+                                            var imageSrc = $"data:image;base64,{imageBase64}";
+                                            <img src="@imageSrc" class="img-fluid" alt="Image" />
+                                        }
+                                    </div>
+                                    <div class="listing-contents h-100">
+                                        <div class="row">
+                                            <div class="col">
+                                                <h3>@Model.Car.CarName</h3>
+                                            </div>
+                                            <div class="col">
+                                                <strong style="color: #0779e4">$@Model.Car.PricePerDay</strong><span class="mx-1">/</span>day
+                                            </div>
+                                        </div>
+                                        <div class="d-block d-md-flex mb-3 border-bottom pb-3">
+                                            <div class="listing-feature pr-4">
+                                                <div class="container">
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <strong>Brand: </strong><a>@Model.Car.Brand.BrandName</a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <strong>Year: </strong><a>@Model.Car.Year</a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <strong>Transsmision: </strong><a>@Model.Car.Transmission.TransmissionName</a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <strong>Body Type: </strong><a>@Model.Car.VehicleType.TypeName</a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <strong>Seats: </strong><a>@Model.Car.VehicleType.Seats</a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <strong>Drive: </strong><a>@Model.Car.Drive.DriveName</a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <strong>Fuel: </strong><a>@Model.Car.FuelType.FuelName</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
