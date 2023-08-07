@@ -8,7 +8,7 @@ using RentCarMVC.Features.Brands.Models;
 using RentCarMVC.Features.Brands.Queries;
 using System.Drawing;
 
-namespace RentCarMVC.Controllers
+namespace RentCarMVC.Features.Brands
 {
     //[Authorize(Roles = "Admin")]
     public class BrandController : Controller
@@ -73,7 +73,7 @@ namespace RentCarMVC.Controllers
 
             return View(brandViewModel);
         }
-        
+
         public async Task<IActionResult> Edit(byte? id)
         {
             if (id == null)
@@ -112,7 +112,7 @@ namespace RentCarMVC.Controllers
                 model.BrandName = brandViewModel.BrandName;
 
                 var result = await _mediator.Send(new UpdateBrandCommand(model));
-                
+
                 if (!result)
                 {
                     return NotFound();

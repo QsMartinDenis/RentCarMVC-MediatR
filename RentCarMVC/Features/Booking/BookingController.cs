@@ -10,7 +10,7 @@ using RentCarMVC.Features.StatusTypes.Queries;
 using RentCarMVC.Features.Users.Queries;
 using System.Security.Claims;
 
-namespace RentCarMVC.Controllers
+namespace RentCarMVC.Features.Booking
 {
     public class BookingController : Controller
     {
@@ -37,10 +37,10 @@ namespace RentCarMVC.Controllers
             }
 
             var viewModel = await _mediator.Send(new CarFilterQuery(filter));
-            
+
             return View("Index", viewModel);
         }
-       
+
         public async Task<IActionResult> Booking(int id)
         {
             if (!User.Identity.IsAuthenticated)
@@ -55,7 +55,8 @@ namespace RentCarMVC.Controllers
                 return NotFound();
             }
 
-            var orderViewModel = new OrderViewModel() {
+            var orderViewModel = new OrderViewModel()
+            {
                 CarId = car.Id,
                 Car = car,
             };
@@ -83,7 +84,7 @@ namespace RentCarMVC.Controllers
                 ModelState.AddModelError(string.Empty, $"If you want to take and return the car on the same day select {orderViewModel.PickupDate:dd-MM-yyyy} and " +
                                                        $"{orderViewModel.ReturnDate.AddDays(1):dd-MM-yyyy}");
             }
-            else if (orderViewModel.PickupDate < DateTime.Now.Date) 
+            else if (orderViewModel.PickupDate < DateTime.Now.Date)
             {
                 isValid = false;
                 ModelState.AddModelError(string.Empty, "Pick up date >= DateTime.Now");
@@ -152,14 +153,14 @@ namespace RentCarMVC.Controllers
                 PickupDate = orderViewModel.PickupDate,
                 ReturnDate = orderViewModel.ReturnDate,
                 TotalAmount = price,
-                StatusId =  1
+                StatusId = 1
             };
 
             await _mediator.Send(new CreateOrderCommand(bookingOreder));
 
             return RedirectToAction("Index");
         }
-        
+
         public async Task<IActionResult> UserOrders()
         {
             var userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -205,4 +206,3 @@ namespace RentCarMVC.Controllers
         }
     }
 }
- 

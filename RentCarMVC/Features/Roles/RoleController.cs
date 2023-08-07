@@ -5,7 +5,7 @@ using RentCarMVC.Features.Roles.Commands;
 using RentCarMVC.Features.Roles.Models;
 using RentCarMVC.Features.Roles.Queries;
 
-namespace RentCarMVC.Controllers
+namespace RentCarMVC.Features.Roles
 {
     [Authorize(Roles = "Admin")]
     public class RoleController : Controller

@@ -6,7 +6,7 @@ using RentCarMVC.Features.Fuels.Commands;
 using RentCarMVC.Features.Fuels.Models;
 using RentCarMVC.Features.Fuels.Queries;
 
-namespace RentCarMVC.Controllers
+namespace RentCarMVC.Features.Fuels
 {
     [Authorize(Roles = "Admin")]
     public class FuelTypeController : Controller
@@ -130,7 +130,7 @@ namespace RentCarMVC.Controllers
             {
                 await _mediator.Send(new DeleteFuelCommand(model));
             }
-           
+
             return RedirectToAction("Index");
         }
     }

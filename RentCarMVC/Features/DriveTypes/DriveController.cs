@@ -5,7 +5,7 @@ using RentCarMVC.Features.DriveTypes.Commands;
 using RentCarMVC.Features.DriveTypes.Models;
 using RentCarMVC.Features.DriveTypes.Queries;
 
-namespace RentCarMVC.Controllers
+namespace RentCarMVC.Features.DriveTypes
 {
     [Authorize(Roles = "Admin")]
     public class DriveController : Controller

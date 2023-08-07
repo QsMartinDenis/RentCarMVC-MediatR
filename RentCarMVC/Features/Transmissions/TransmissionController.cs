@@ -1,34 +1,32 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using RentCarMVC.Entities;
-using RentCarMVC.Features.StatusTypes.Commands;
-using RentCarMVC.Features.StatusTypes.Models;
-using RentCarMVC.Features.StatusTypes.Queries;
-using System.Data;
+using RentCarMVC.Features.Transmissions.Commands;
+using RentCarMVC.Features.Transmissions.Models;
+using RentCarMVC.Features.Transmissions.Queries;
 
-namespace RentCarMVC.Controllers
+namespace RentCarMVC.Features.Transmissions
 {
     [Authorize(Roles = "Admin")]
-    public class StatusController : Controller
+    public class TransmissionController : Controller
     {
         private readonly IMediator _mediator;
 
-        public StatusController(IMediator mediator)
+        public TransmissionController(IMediator mediator)
         {
             _mediator = mediator;
         }
 
         public async Task<IActionResult> Index()
         {
-            var viewModel = await _mediator.Send(new GetAllStatusQuery());
+            var transmissions = await _mediator.Send(new GetAllTransmissionQuery());
 
-            if (viewModel == null)
+            if (transmissions == null)
             {
                 return View();
             }
 
-            return View(viewModel);
+            return View(transmissions);
         }
 
         public IActionResult Create()
@@ -38,16 +36,16 @@ namespace RentCarMVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(StatusViewModel statusViewModel)
+        public async Task<IActionResult> Create(TransmissionViewModel transmissionViewModel)
         {
             if (ModelState.IsValid)
             {
-                await _mediator.Send(new CreateStatusCommand(statusViewModel));
+                await _mediator.Send(new CreateTransmissionCommand(transmissionViewModel));
 
                 return RedirectToAction("Index");
             }
 
-            return View(statusViewModel);
+            return View(transmissionViewModel);
         }
 
         public async Task<IActionResult> Edit(byte? id)
@@ -57,7 +55,7 @@ namespace RentCarMVC.Controllers
                 return NotFound();
             }
 
-            var model = await _mediator.Send(new GetStatusByIdQuery(id));
+            var model = await _mediator.Send(new GetByIdTransmissionQuery(id));
 
             if (model == null)
             {
@@ -69,29 +67,29 @@ namespace RentCarMVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(byte id, StatusViewModel statusViewModel)
+        public async Task<IActionResult> Edit(byte id, TransmissionViewModel transmissionViewModel)
         {
-            if (id != statusViewModel.Id)
+            if (id != transmissionViewModel.Id)
             {
                 return NotFound();
             }
 
             if (ModelState.IsValid)
             {
-                var model = await _mediator.Send(new GetStatusByIdQuery(id));
+                var model = await _mediator.Send(new GetByIdTransmissionQuery(id));
 
                 if (model == null)
                 {
                     return NotFound();
                 }
 
-                model.StatusName = statusViewModel.StatusName;
+                model.TransmissionName = transmissionViewModel.TransmissionName;
 
-                await _mediator.Send(new UpdateStatusCommand(model));
+                await _mediator.Send(new UpdateTransmissionCommand(model));
 
                 return RedirectToAction(nameof(Index));
             }
-            return View(statusViewModel);
+            return View(transmissionViewModel);
         }
 
         public async Task<IActionResult> Delete(byte? id)
@@ -101,17 +99,17 @@ namespace RentCarMVC.Controllers
                 return NotFound();
             }
 
-            var status = await _mediator.Send(new GetStatusByIdQuery(id));
+            var transmission = await _mediator.Send(new GetByIdTransmissionQuery(id));
 
-            if (status == null)
+            if (transmission == null)
             {
                 return NotFound();
             }
 
-            var viewModel = new StatusViewModel()
+            var viewModel = new TransmissionViewModel()
             {
-                Id = status.Id,
-                StatusName = status.StatusName,
+                Id = transmission.Id,
+                TransmissionName = transmission.TransmissionName,
             };
 
             return View(viewModel);
@@ -121,11 +119,11 @@ namespace RentCarMVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(byte id)
         {
-            var model = await _mediator.Send(new GetStatusByIdQuery(id));
+            var model = await _mediator.Send(new GetByIdTransmissionQuery(id));
 
             if (model != null)
             {
-                await _mediator.Send(new DeleteStatusCommand(model));
+                await _mediator.Send(new DeleteTransmissionCommand(model));
             }
 
             return RedirectToAction("Index");

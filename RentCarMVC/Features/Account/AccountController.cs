@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using RentCarMVC.Features.Account.Commands;
 using RentCarMVC.Features.Account.Models;
 
-namespace RentCarMVC.Controllers
+namespace RentCarMVC.Features.Account
 {
     public class AccountController : Controller
     {

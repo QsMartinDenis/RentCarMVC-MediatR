@@ -8,7 +8,7 @@ using RentCarMVC.Features.Cars.Commands;
 using RentCarMVC.Features.Cars.Models;
 using RentCarMVC.Features.Cars.Queries;
 
-namespace RentCarMVC.Controllers
+namespace RentCarMVC.Features.Cars
 {
     // [Authorize(Roles = "Admin")]
     public class CarController : Controller
@@ -139,7 +139,7 @@ namespace RentCarMVC.Controllers
 
             if (ModelState.IsValid)
             {
-                await _mediator.Send(new UpdateCarCommand(carDetailsViewModel)); 
+                await _mediator.Send(new UpdateCarCommand(carDetailsViewModel));
 
                 return RedirectToAction("Index");
             }
@@ -169,10 +169,11 @@ namespace RentCarMVC.Controllers
                 return NotFound();
             }
 
-            var viewModel = new CarViewModel(){
+            var viewModel = new CarViewModel()
+            {
                 Id = car.Id,
                 CarName = car.CarName,
-                BrandId = car.BrandId,  
+                BrandId = car.BrandId,
                 VehicleTypeId = car.VehicleTypeId,
                 TransmissionId = car.TransmissionId,
                 DriveId = car.DriveId,
@@ -197,5 +198,5 @@ namespace RentCarMVC.Controllers
 
             return RedirectToAction("Index");
         }
-    }   
+    }
 }

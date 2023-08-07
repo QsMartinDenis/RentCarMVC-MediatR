@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RentCarMVC.Models;
 
-namespace RentCarMVC.Controllers
+namespace RentCarMVC.Features.Home
 {
     public class HomeController : Controller
     {
