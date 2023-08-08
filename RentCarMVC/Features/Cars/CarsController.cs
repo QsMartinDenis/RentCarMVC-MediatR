@@ -10,43 +10,19 @@ using RentCarMVC.Features.Cars.Queries;
 
 namespace RentCarMVC.Features.Cars
 {
-    // [Authorize(Roles = "Admin")]
-    public class CarController : Controller
+    [Authorize(Roles = "Admin")]
+    public class CarsController : Controller
     {
         private readonly IMediator _mediator;
-        private readonly IMemoryCache _cache;
-        private readonly ILogger<CarController> _logger;
-        private readonly string _cacheKey = "CarCache";
 
-
-        public CarController(IMediator mediator,
-                             IMemoryCache cache,
-                             ILogger<CarController> logger)
+        public CarsController(IMediator mediator)
         {
             _mediator = mediator;
-            _cache = cache;
-            _logger = logger;
         }
 
         public async Task<IActionResult> Index()
         {
-            if (_cache.TryGetValue(_cacheKey, out IEnumerable<CarViewModel> cars))
-            {
-                _logger.Log(LogLevel.Information, "Cars FOUND in cache");
-            }
-            else
-            {
-                _logger.Log(LogLevel.Information, "Cars NOT found in cache");
-
-                cars = await _mediator.Send(new GetAllCarQuery());
-
-                var cacheOption = new MemoryCacheEntryOptions()
-                    .SetSlidingExpiration(TimeSpan.FromSeconds(45)) // dupa 45 secunde se sterge cache daca iesi de pe pagina
-                    .SetAbsoluteExpiration(TimeSpan.FromSeconds(3600))
-                    .SetPriority(CacheItemPriority.Normal);
-
-                _cache.Set(_cacheKey, cars, cacheOption);
-            }
+            var cars = await _mediator.Send(new GetAllCarQuery());
 
             if (cars == null && cars.Count() == 0)
             {
@@ -59,7 +35,6 @@ namespace RentCarMVC.Features.Cars
         public async Task<IActionResult> Create()
         {
             var viewModel = await _mediator.Send(new GetAllCarDetailsQuery());
-            _cache.Remove(_cacheKey);
             return View(viewModel);
         }
 
@@ -151,7 +126,6 @@ namespace RentCarMVC.Features.Cars
             carDetailsViewModel.Transmissions = modelView.Transmissions;
             carDetailsViewModel.Drives = modelView.Drives;
             carDetailsViewModel.FuelTypes = modelView.FuelTypes;
-            _cache.Remove(_cacheKey);
             return View(carDetailsViewModel);
         }
 
@@ -193,7 +167,6 @@ namespace RentCarMVC.Features.Cars
             if (model != null)
             {
                 await _mediator.Send(new DeleteCarCommand(model));
-                _cache.Remove(_cacheKey);
             }
 
             return RedirectToAction("Index");

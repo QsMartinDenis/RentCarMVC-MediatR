@@ -1,32 +1,34 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using RentCarMVC.Features.DriveTypes.Commands;
-using RentCarMVC.Features.DriveTypes.Models;
-using RentCarMVC.Features.DriveTypes.Queries;
+using RentCarMVC.Entities;
+using RentCarMVC.Features.StatusTypes.Commands;
+using RentCarMVC.Features.StatusTypes.Models;
+using RentCarMVC.Features.StatusTypes.Queries;
+using System.Data;
 
-namespace RentCarMVC.Features.DriveTypes
+namespace RentCarMVC.Features.StatusTypes
 {
     [Authorize(Roles = "Admin")]
-    public class DriveController : Controller
+    public class StatusTypesController : Controller
     {
         private readonly IMediator _mediator;
 
-        public DriveController(IMediator mediator)
+        public StatusTypesController(IMediator mediator)
         {
             _mediator = mediator;
         }
 
         public async Task<IActionResult> Index()
         {
-            var drive = await _mediator.Send(new GetAllDriveQuery());
+            var viewModel = await _mediator.Send(new GetAllStatusQuery());
 
-            if (drive == null)
+            if (viewModel == null)
             {
                 return View();
             }
 
-            return View(drive);
+            return View(viewModel);
         }
 
         public IActionResult Create()
@@ -36,21 +38,16 @@ namespace RentCarMVC.Features.DriveTypes
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(DriveViewModel driveViewModel)
+        public async Task<IActionResult> Create(StatusViewModel statusViewModel)
         {
             if (ModelState.IsValid)
             {
-                var result = await _mediator.Send(new CreateDriveCommand(driveViewModel));
-
-                if (result)
-                {
-                    return RedirectToAction("Index");
-                }
+                await _mediator.Send(new CreateStatusCommand(statusViewModel));
 
                 return RedirectToAction("Index");
             }
 
-            return View(driveViewModel);
+            return View(statusViewModel);
         }
 
         public async Task<IActionResult> Edit(byte? id)
@@ -60,7 +57,7 @@ namespace RentCarMVC.Features.DriveTypes
                 return NotFound();
             }
 
-            var model = await _mediator.Send(new GetDriveByIdQuery(id));
+            var model = await _mediator.Send(new GetStatusByIdQuery(id));
 
             if (model == null)
             {
@@ -72,28 +69,29 @@ namespace RentCarMVC.Features.DriveTypes
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(byte id, DriveViewModel driveViewModel)
+        public async Task<IActionResult> Edit(byte id, StatusViewModel statusViewModel)
         {
-            if (id != driveViewModel.Id)
+            if (id != statusViewModel.Id)
             {
                 return NotFound();
             }
 
             if (ModelState.IsValid)
             {
-                var model = await _mediator.Send(new GetDriveByIdQuery(id));
+                var model = await _mediator.Send(new GetStatusByIdQuery(id));
 
                 if (model == null)
                 {
                     return NotFound();
                 }
-                model.DriveName = driveViewModel.DriveName;
 
-                await _mediator.Send(new UpdateDriveCommand(model));
+                model.StatusName = statusViewModel.StatusName;
+
+                await _mediator.Send(new UpdateStatusCommand(model));
 
                 return RedirectToAction(nameof(Index));
             }
-            return View(driveViewModel);
+            return View(statusViewModel);
         }
 
         public async Task<IActionResult> Delete(byte? id)
@@ -103,17 +101,17 @@ namespace RentCarMVC.Features.DriveTypes
                 return NotFound();
             }
 
-            var drive = await _mediator.Send(new GetDriveByIdQuery(id));
+            var status = await _mediator.Send(new GetStatusByIdQuery(id));
 
-            if (drive == null)
+            if (status == null)
             {
                 return NotFound();
             }
 
-            var viewModel = new DriveViewModel()
+            var viewModel = new StatusViewModel()
             {
-                Id = drive.Id,
-                DriveName = drive.DriveName,
+                Id = status.Id,
+                StatusName = status.StatusName,
             };
 
             return View(viewModel);
@@ -123,11 +121,11 @@ namespace RentCarMVC.Features.DriveTypes
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(byte id)
         {
-            var model = await _mediator.Send(new GetDriveByIdQuery(id));
+            var model = await _mediator.Send(new GetStatusByIdQuery(id));
 
             if (model != null)
             {
-                await _mediator.Send(new DeleteDriveCommand(model));
+                await _mediator.Send(new DeleteStatusCommand(model));
             }
 
             return RedirectToAction("Index");

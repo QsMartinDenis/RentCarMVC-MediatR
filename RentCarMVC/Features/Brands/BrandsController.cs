@@ -1,34 +1,31 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using RentCarMVC.Entities;
-using RentCarMVC.Features.StatusTypes.Commands;
-using RentCarMVC.Features.StatusTypes.Models;
-using RentCarMVC.Features.StatusTypes.Queries;
-using System.Data;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.Extensions.Caching.Memory;
+using RentCarMVC.Features.Brands.Commands;
+using RentCarMVC.Features.Brands.Models;
+using RentCarMVC.Features.Brands.Queries;
+using System.Drawing;
 
-namespace RentCarMVC.Features.StatusTypes
+namespace RentCarMVC.Features.Brands
 {
     [Authorize(Roles = "Admin")]
-    public class StatusController : Controller
+    public class BrandsController : Controller
     {
         private readonly IMediator _mediator;
 
-        public StatusController(IMediator mediator)
+        public BrandsController(IMediator mediator)
         {
             _mediator = mediator;
         }
 
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var viewModel = await _mediator.Send(new GetAllStatusQuery());
+            var brandViewModel = await _mediator.Send(new GetAllBrandQuery());
 
-            if (viewModel == null)
-            {
-                return View();
-            }
-
-            return View(viewModel);
+            return View(brandViewModel);
         }
 
         public IActionResult Create()
@@ -38,16 +35,19 @@ namespace RentCarMVC.Features.StatusTypes
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(StatusViewModel statusViewModel)
+        public async Task<IActionResult> Create(BrandViewModel brandViewModel)
         {
             if (ModelState.IsValid)
             {
-                await _mediator.Send(new CreateStatusCommand(statusViewModel));
+                var result = await _mediator.Send(new CreateBrandCommand(brandViewModel));
 
-                return RedirectToAction("Index");
+                if (result)
+                {
+                    return RedirectToAction("Index");
+                }
             }
 
-            return View(statusViewModel);
+            return View(brandViewModel);
         }
 
         public async Task<IActionResult> Edit(byte? id)
@@ -57,7 +57,7 @@ namespace RentCarMVC.Features.StatusTypes
                 return NotFound();
             }
 
-            var model = await _mediator.Send(new GetStatusByIdQuery(id));
+            var model = await _mediator.Send(new GetBrandByIdQuery(id));
 
             if (model == null)
             {
@@ -69,29 +69,34 @@ namespace RentCarMVC.Features.StatusTypes
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(byte id, StatusViewModel statusViewModel)
+        public async Task<IActionResult> Edit(byte id, BrandViewModel brandViewModel)
         {
-            if (id != statusViewModel.Id)
+            if (id != brandViewModel.Id)
             {
                 return NotFound();
             }
 
             if (ModelState.IsValid)
             {
-                var model = await _mediator.Send(new GetStatusByIdQuery(id));
+                var model = await _mediator.Send(new GetBrandByIdQuery(id));
 
                 if (model == null)
                 {
                     return NotFound();
                 }
 
-                model.StatusName = statusViewModel.StatusName;
+                model.BrandName = brandViewModel.BrandName;
 
-                await _mediator.Send(new UpdateStatusCommand(model));
+                var result = await _mediator.Send(new UpdateBrandCommand(model));
+
+                if (!result)
+                {
+                    return NotFound();
+                }
 
                 return RedirectToAction(nameof(Index));
             }
-            return View(statusViewModel);
+            return View(brandViewModel);
         }
 
         public async Task<IActionResult> Delete(byte? id)
@@ -101,17 +106,17 @@ namespace RentCarMVC.Features.StatusTypes
                 return NotFound();
             }
 
-            var status = await _mediator.Send(new GetStatusByIdQuery(id));
+            var brand = await _mediator.Send(new GetBrandByIdQuery(id));
 
-            if (status == null)
+            if (brand == null)
             {
                 return NotFound();
             }
 
-            var viewModel = new StatusViewModel()
+            var viewModel = new BrandViewModel()
             {
-                Id = status.Id,
-                StatusName = status.StatusName,
+                Id = brand.Id,
+                BrandName = brand.BrandName,
             };
 
             return View(viewModel);
@@ -121,11 +126,11 @@ namespace RentCarMVC.Features.StatusTypes
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(byte id)
         {
-            var model = await _mediator.Send(new GetStatusByIdQuery(id));
+            var model = await _mediator.Send(new GetBrandByIdQuery(id));
 
             if (model != null)
             {
-                await _mediator.Send(new DeleteStatusCommand(model));
+                await _mediator.Send(new DeleteBrandCommand(model));
             }
 
             return RedirectToAction("Index");

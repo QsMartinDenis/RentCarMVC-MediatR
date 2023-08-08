@@ -1,32 +1,32 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using RentCarMVC.Features.VehicleTypes.Commands;
-using RentCarMVC.Features.VehicleTypes.Models;
-using RentCarMVC.Features.VehicleTypes.Queries;
+using RentCarMVC.Entities;
+using RentCarMVC.Features.Fuels.Commands;
+using RentCarMVC.Features.Fuels.Models;
+using RentCarMVC.Features.Fuels.Queries;
 
-namespace RentCarMVC.Features.VehicleTypes
+namespace RentCarMVC.Features.Fuels
 {
     [Authorize(Roles = "Admin")]
-    public class VehicleTypeController : Controller
+    public class FuelsController : Controller
     {
         private readonly IMediator _mediator;
-
-        public VehicleTypeController(IMediator mediator)
+        public FuelsController(IMediator mediator)
         {
             _mediator = mediator;
         }
 
         public async Task<IActionResult> Index()
         {
-            var vehicleType = await _mediator.Send(new GetAllVehicleTypeQuery());
+            var fuelTypes = await _mediator.Send(new GetAllFuelQuery());
 
-            if (vehicleType == null)
+            if (fuelTypes == null)
             {
                 return View();
             }
 
-            return View(vehicleType);
+            return View(fuelTypes);
         }
 
         public IActionResult Create()
@@ -36,16 +36,21 @@ namespace RentCarMVC.Features.VehicleTypes
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(VehicleTypeViewModel vehicleTypeViewModel)
+        public async Task<IActionResult> Create(FuelTypeViewModel fuelTypeViewModel)
         {
             if (ModelState.IsValid)
             {
-                await _mediator.Send(new CreateVehicleTypeCommand(vehicleTypeViewModel));
+                var model = new FuelType()
+                {
+                    FuelName = fuelTypeViewModel.FuelName
+                };
+
+                await _mediator.Send(new CreateFuelCommand(fuelTypeViewModel));
 
                 return RedirectToAction("Index");
             }
 
-            return View(vehicleTypeViewModel);
+            return View(fuelTypeViewModel);
         }
 
         public async Task<IActionResult> Edit(byte? id)
@@ -55,9 +60,9 @@ namespace RentCarMVC.Features.VehicleTypes
                 return NotFound();
             }
 
-            var model = await _mediator.Send(new GetByIdVehicleTypeQuery(id));
+            var fuel = await _mediator.Send(new GetFuelByIdQuery(id));
 
-            if (model == null)
+            if (fuel == null)
             {
                 return NotFound();
             }
@@ -67,30 +72,29 @@ namespace RentCarMVC.Features.VehicleTypes
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(byte id, VehicleTypeViewModel vehicleTypeViewModel)
+        public async Task<IActionResult> Edit(byte id, FuelTypeViewModel fuelTypeViewModel)
         {
-            if (id != vehicleTypeViewModel.Id)
+            if (id != fuelTypeViewModel.Id)
             {
                 return NotFound();
             }
 
             if (ModelState.IsValid)
             {
-                var model = await _mediator.Send(new GetByIdVehicleTypeQuery(id));
+                var model = await _mediator.Send(new GetFuelByIdQuery(id));
 
                 if (model == null)
                 {
                     return NotFound();
                 }
 
-                model.TypeName = vehicleTypeViewModel.TypeName;
-                model.Seats = vehicleTypeViewModel.Seats;
+                model.FuelName = fuelTypeViewModel.FuelName;
 
-                await _mediator.Send(new UpdateVehicleTypeCommand(model));
+                await _mediator.Send(new UpdateFuelCommand(model));
 
                 return RedirectToAction(nameof(Index));
             }
-            return View(vehicleTypeViewModel);
+            return View(fuelTypeViewModel);
         }
 
         public async Task<IActionResult> Delete(byte? id)
@@ -100,18 +104,17 @@ namespace RentCarMVC.Features.VehicleTypes
                 return NotFound();
             }
 
-            var vehicleType = await _mediator.Send(new GetByIdVehicleTypeQuery(id));
+            var fuelType = await _mediator.Send(new GetFuelByIdQuery(id));
 
-            if (vehicleType == null)
+            if (fuelType == null)
             {
                 return NotFound();
             }
 
-            var viewModel = new VehicleTypeViewModel()
+            var viewModel = new FuelTypeViewModel()
             {
-                Id = vehicleType.Id,
-                TypeName = vehicleType.TypeName,
-                Seats = vehicleType.Seats
+                Id = fuelType.Id,
+                FuelName = fuelType.FuelName
             };
 
             return View(viewModel);
@@ -121,11 +124,11 @@ namespace RentCarMVC.Features.VehicleTypes
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(byte id)
         {
-            var model = await _mediator.Send(new GetByIdVehicleTypeQuery(id));
+            var model = await _mediator.Send(new GetFuelByIdQuery(id));
 
             if (model != null)
             {
-                await _mediator.Send(new DeleteVehicleTypeCommand(model));
+                await _mediator.Send(new DeleteFuelCommand(model));
             }
 
             return RedirectToAction("Index");

@@ -8,11 +8,11 @@ using RentCarMVC.Features.Roles.Queries;
 namespace RentCarMVC.Features.Roles
 {
     [Authorize(Roles = "Admin")]
-    public class RoleController : Controller
+    public class RolesController : Controller
     {
         private readonly IMediator _mediator;
 
-        public RoleController(IMediator mediator)
+        public RolesController(IMediator mediator)
         {
             _mediator = mediator;
         }
