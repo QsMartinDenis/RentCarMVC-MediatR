@@ -35,7 +35,7 @@ namespace RentCarMVC.Features.Cars.Commands
                 model.Image = ImageToBytes(request.ViewModel.formFile);
             }
 
-            await _dataContext.Car.AddAsync(model);
+            await _dataContext.Cars.AddAsync(model);
             var result = await _dataContext.SaveChangesAsync();
 
             return result > 0;

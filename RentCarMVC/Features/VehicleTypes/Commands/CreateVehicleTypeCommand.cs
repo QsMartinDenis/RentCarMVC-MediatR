@@ -24,7 +24,7 @@ namespace RentCarMVC.Features.VehicleTypes.Commands
                 Seats = request.ViewModel.Seats,
             };
 
-            await _dataContext.VehicleType.AddAsync(model);
+            await _dataContext.VehicleTypes.AddAsync(model);
             var result = await _dataContext.SaveChangesAsync();
 
             return result > 0;

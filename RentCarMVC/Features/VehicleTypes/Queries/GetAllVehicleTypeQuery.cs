@@ -18,7 +18,7 @@ namespace RentCarMVC.Features.VehicleTypes.Queries
 
         public async Task<IEnumerable<VehicleTypeViewModel>> Handle(GetAllVehicleTypeQuery request, CancellationToken cancellationToken)
         {
-            var vehicleTypes = await _dataContext.VehicleType.ToListAsync();
+            var vehicleTypes = await _dataContext.VehicleTypes.ToListAsync();
 
             var viewModel = vehicleTypes.Select(x => new VehicleTypeViewModel()
             {

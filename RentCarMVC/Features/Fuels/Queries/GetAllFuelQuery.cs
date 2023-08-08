@@ -19,7 +19,7 @@ namespace RentCarMVC.Features.Fuels.Queries
 
         public async Task<IEnumerable<FuelTypeViewModel>> Handle(GetAllFuelQuery request, CancellationToken cancellationToken)
         {
-            var fuels = await _dataContext.FuelType.ToListAsync();
+            var fuels = await _dataContext.FuelTypes.ToListAsync();
 
             var viewModel = fuels.Select(x => new FuelTypeViewModel()
             {

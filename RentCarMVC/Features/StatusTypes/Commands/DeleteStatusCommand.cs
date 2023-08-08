@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using RentCarMVC.Data;
-using RentCarMVC.Entities;
 
 namespace RentCarMVC.Features.StatusTypes.Commands
 {
@@ -17,7 +16,7 @@ namespace RentCarMVC.Features.StatusTypes.Commands
 
         public async Task<bool> Handle(DeleteStatusCommand request, CancellationToken cancellationToken)
         {
-            _dataContext.Status.Remove(request.Status);
+            _dataContext.Statuses.Remove(request.Status);
             var result = await _dataContext.SaveChangesAsync();
 
             return result > 0;

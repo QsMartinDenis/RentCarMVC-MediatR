@@ -18,7 +18,7 @@ namespace RentCarMVC.Features.Booking.Queries
 
         public async Task<List<BookingOrder>> Handle(GetOrderByCarIdQuery request, CancellationToken cancellationToken)
         {
-            var orders = await _dataContext.BookingOrder
+            var orders = await _dataContext.BookingOrders
                         .Where(x => x.CarId == request.CarId &&
                                     x.Status.StatusName == "In Progress" ||
                                     x.Status.StatusName == "Confirmed")

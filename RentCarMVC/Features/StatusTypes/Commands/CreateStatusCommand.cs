@@ -23,7 +23,7 @@ namespace RentCarMVC.Features.StatusTypes.Commands
                 StatusName = request.ViewModel.StatusName,
             };
 
-            await _dataContext.Status.AddAsync(model);
+            await _dataContext.Statuses.AddAsync(model);
             var result = await _dataContext.SaveChangesAsync();
 
             return result > 0;

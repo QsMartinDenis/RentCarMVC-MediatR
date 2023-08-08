@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using RentCarMVC.Data;
-using RentCarMVC.Entities;
 
 namespace RentCarMVC.Features.Transmissions.Commands
 {
@@ -17,7 +16,7 @@ namespace RentCarMVC.Features.Transmissions.Commands
 
         public async Task<bool> Handle(DeleteTransmissionCommand request, CancellationToken cancellationToken)
         {
-            _dataContext.Transmission.Remove(request.Transmission);
+            _dataContext.Transmissions.Remove(request.Transmission);
             var result = await _dataContext.SaveChangesAsync();
 
             return result > 0;

@@ -1,4 +1,4 @@
-﻿using RentCarMVC.Entities;
+﻿using RentCarMVC.Features.Cars;
 
 namespace RentCarMVC.Features.Booking.Models
 {

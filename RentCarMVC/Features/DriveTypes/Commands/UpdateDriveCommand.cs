@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using RentCarMVC.Data;
-using RentCarMVC.Entities;
 
 namespace RentCarMVC.Features.DriveTypes.Commands
 {
@@ -17,7 +16,7 @@ namespace RentCarMVC.Features.DriveTypes.Commands
 
         public async Task<bool> Handle(UpdateDriveCommand request, CancellationToken cancellationToken)
         {
-            _dataContext.Drive.Update(request.Drive);
+            _dataContext.Drives.Update(request.Drive);
             var result = await _dataContext.SaveChangesAsync();
 
             return result > 0;

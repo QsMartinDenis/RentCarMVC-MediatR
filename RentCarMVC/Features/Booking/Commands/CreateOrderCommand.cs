@@ -17,7 +17,7 @@ namespace RentCarMVC.Features.Booking.Commands
 
         public async Task<bool> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
         {
-            await _dataContext.BookingOrder.AddAsync(request.BookingOrder);
+            await _dataContext.BookingOrders.AddAsync(request.BookingOrder);
             var result =  await _dataContext.SaveChangesAsync();
 
             return result > 0;

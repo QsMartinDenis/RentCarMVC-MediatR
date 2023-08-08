@@ -23,7 +23,7 @@ namespace RentCarMVC.Features.Transmissions.Commands
                 TransmissionName = request.ViewModel.TransmissionName,
             };
 
-            await _dataContext.Transmission.AddAsync(model);
+            await _dataContext.Transmissions.AddAsync(model);
             var result = await _dataContext.SaveChangesAsync();
 
             return result > 0;

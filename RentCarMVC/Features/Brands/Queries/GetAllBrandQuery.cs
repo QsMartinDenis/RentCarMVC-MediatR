@@ -18,7 +18,7 @@ namespace RentCarMVC.Features.Brands.Queries
 
         public async Task<IEnumerable<BrandViewModel>> Handle(GetAllBrandQuery request, CancellationToken cancellationToken)
         {
-            var brands = await _dataContext.Brand.ToListAsync();
+            var brands = await _dataContext.Brands.ToListAsync();
 
             var viewModel = brands.Select(item => new BrandViewModel
             {

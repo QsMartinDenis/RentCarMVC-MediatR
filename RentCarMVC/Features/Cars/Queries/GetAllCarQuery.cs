@@ -19,7 +19,7 @@ namespace RentCarMVC.Features.Cars.Queries
 
         public async Task<IEnumerable<CarViewModel>> Handle(GetAllCarQuery request, CancellationToken cancellationToken)
         {
-            var cars = await _dataContext.Car
+            var cars = await _dataContext.Cars
                                          .Include(c => c.Brand)
                                          .Include(c => c.VehicleType)
                                          .Include(c => c.Transmission)

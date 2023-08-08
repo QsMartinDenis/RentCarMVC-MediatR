@@ -18,7 +18,7 @@ namespace RentCarMVC.Features.Cars.Commands
 
         public async Task<bool> Handle(UpdateCarCommand request, CancellationToken cancellationToken)
         {
-            var model = await _dataContext.Car.FindAsync(request.ViewModel.Id);
+            var model = await _dataContext.Cars.FindAsync(request.ViewModel.Id);
 
             if (model == null)
             {
@@ -39,7 +39,7 @@ namespace RentCarMVC.Features.Cars.Commands
                 model.Image = ImageToBytes(request.ViewModel.formFile);
             }
 
-            _dataContext.Car.Update(model);
+            _dataContext.Cars.Update(model);
             var result = await _dataContext.SaveChangesAsync();
 
             return result > 0;

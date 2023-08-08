@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using RentCarMVC.Data;
-using RentCarMVC.Entities;
 
 namespace RentCarMVC.Features.Brands.Commands
 {
@@ -17,7 +16,7 @@ namespace RentCarMVC.Features.Brands.Commands
 
         public async Task<bool> Handle(DeleteBrandCommand request, CancellationToken cancellationToken)
         {
-            _dataContext.Brand.Remove(request.Brand);
+            _dataContext.Brands.Remove(request.Brand);
             var result = await _dataContext.SaveChangesAsync();
 
             return result > 0;

@@ -19,7 +19,7 @@ namespace RentCarMVC.Features.Transmissions.Queries
 
         public async Task<IEnumerable<TransmissionViewModel>> Handle(GetAllTransmissionQuery request, CancellationToken cancellationToken)
         {
-            var trasmission = await _dataContext.Transmission.ToListAsync();
+            var trasmission = await _dataContext.Transmissions.ToListAsync();
 
             var viewModel = trasmission.Select(x => new TransmissionViewModel()
             {

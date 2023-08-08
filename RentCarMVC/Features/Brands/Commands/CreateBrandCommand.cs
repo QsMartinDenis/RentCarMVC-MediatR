@@ -23,7 +23,7 @@ namespace RentCarMVC.Features.Brands.Commands
                 BrandName = request.ViewModel.BrandName,
             };
 
-            await _dataContext.Brand.AddAsync(model);
+            await _dataContext.Brands.AddAsync(model);
             var result = await _dataContext.SaveChangesAsync();
 
             return result > 0;

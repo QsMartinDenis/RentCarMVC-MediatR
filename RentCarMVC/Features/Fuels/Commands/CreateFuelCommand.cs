@@ -23,7 +23,7 @@ namespace RentCarMVC.Features.Fuels.Commands
                 FuelName = request.ViewModel.FuelName,
             };
 
-            await _dataContext.FuelType.AddAsync(model);
+            await _dataContext.FuelTypes.AddAsync(model);
             var result = await _dataContext.SaveChangesAsync();
 
             return result > 0;

@@ -1,4 +1,8 @@
-﻿using RentCarMVC.Entities;
+﻿using RentCarMVC.Features.Brands;
+using RentCarMVC.Features.DriveTypes;
+using RentCarMVC.Features.Fuels;
+using RentCarMVC.Features.Transmissions;
+using RentCarMVC.Features.VehicleTypes;
 
 namespace RentCarMVC.Features.Cars.Models
 {

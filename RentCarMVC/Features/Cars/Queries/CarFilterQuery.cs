@@ -19,7 +19,7 @@ namespace RentCarMVC.Features.Cars.Queries
 
         public async Task<IEnumerable<CarViewModel>> Handle(CarFilterQuery request, CancellationToken cancellationToken)
         {
-            var carsQuery = _dataContext.Car
+            var carsQuery = _dataContext.Cars
                                         .Where(c => request.Filter.Brand == null || request.Filter.Brand.Contains(c.Brand.BrandName))
                                         .Where(c => request.Filter.VehicleType == null || request.Filter.VehicleType.Contains(c.VehicleType.TypeName))
                                         .Where(c => request.Filter.Transmission == null || request.Filter.Transmission.Contains(c.Transmission.TransmissionName))

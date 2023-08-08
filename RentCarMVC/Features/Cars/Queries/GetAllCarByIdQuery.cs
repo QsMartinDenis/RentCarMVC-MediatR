@@ -2,7 +2,6 @@
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using RentCarMVC.Data;
-using RentCarMVC.Entities;
 
 namespace RentCarMVC.Features.Cars.Queries
 {
@@ -19,7 +18,7 @@ namespace RentCarMVC.Features.Cars.Queries
 
         public async Task<Car?> Handle(GetAllCarByIdQuery request, CancellationToken cancellationToken)
         {
-            var car = await _dataContext.Car
+            var car = await _dataContext.Cars
                                     .Include(c => c.Brand)
                                     .Include(c => c.Drive)
                                     .Include(c => c.FuelType)

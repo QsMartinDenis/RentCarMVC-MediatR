@@ -18,7 +18,7 @@ namespace RentCarMVC.Features.Booking.Queries
 
         public async Task<BookingOrder?> Handle(GetOrderByIdQuery request, CancellationToken cancellationToken)
         {
-            return await _dataContext.BookingOrder.Where(x => x.Id == request.Id)
+            return await _dataContext.BookingOrders.Where(x => x.Id == request.Id)
                                                   .FirstOrDefaultAsync();
         }
     }

@@ -18,7 +18,7 @@ namespace RentCarMVC.Features.DriveTypes.Queries
 
         public async Task<IEnumerable<DriveViewModel>> Handle(GetAllDriveQuery request, CancellationToken cancellationToken)
         {
-            var drive = await _dataContext.Drive.ToListAsync();
+            var drive = await _dataContext.Drives.ToListAsync();
 
             var viewModel = drive.Select(x => new DriveViewModel()
             {

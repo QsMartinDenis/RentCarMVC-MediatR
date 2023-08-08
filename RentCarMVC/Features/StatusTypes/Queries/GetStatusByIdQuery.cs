@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using RentCarMVC.Data;
-using RentCarMVC.Entities;
 
 namespace RentCarMVC.Features.StatusTypes.Queries
 {
@@ -17,7 +16,7 @@ namespace RentCarMVC.Features.StatusTypes.Queries
 
         public async Task<Status?> Handle(GetStatusByIdQuery request, CancellationToken cancellationToken)
         {
-            var model = await _dataContext.Status.FindAsync(request.Id);
+            var model = await _dataContext.Statuses.FindAsync(request.Id);
 
             if (model == null)
             {

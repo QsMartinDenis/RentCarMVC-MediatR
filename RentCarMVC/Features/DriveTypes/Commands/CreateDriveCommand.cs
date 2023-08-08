@@ -23,7 +23,7 @@ namespace RentCarMVC.Features.DriveTypes.Commands
                 DriveName = request.ViewModel.DriveName,
             };
 
-            await _dataContext.Drive.AddAsync(model);
+            await _dataContext.Drives.AddAsync(model);
             var result = await _dataContext.SaveChangesAsync();
 
             return result > 0;

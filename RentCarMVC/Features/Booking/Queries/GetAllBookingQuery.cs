@@ -20,7 +20,7 @@ namespace RentCarMVC.Features.Booking.Queries
 
         public async Task<IEnumerable<OrderViewModel>> Handle(GetAllBookingQuery request, CancellationToken cancellationToken)
         {
-            var orders = await _dataContext.BookingOrder
+            var orders = await _dataContext.BookingOrders
                                .Include(x => x.Car)
                                .Include(x => x.User)
                                .Include(x => x.Status)

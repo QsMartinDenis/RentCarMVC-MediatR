@@ -20,11 +20,11 @@ namespace RentCarMVC.Features.Cars.Queries
         {
             var viewModel = new CarDetailsViewModel()
             {
-                Brands = await _dataContext.Brand.ToListAsync(),
-                VehicleTypes = await _dataContext.VehicleType.ToListAsync(),
-                Transmissions = await _dataContext.Transmission.ToListAsync(),
-                Drives = await _dataContext.Drive.ToListAsync(),
-                FuelTypes = await _dataContext.FuelType.ToListAsync()    
+                Brands = await _dataContext.Brands.ToListAsync(),
+                VehicleTypes = await _dataContext.VehicleTypes.ToListAsync(),
+                Transmissions = await _dataContext.Transmissions.ToListAsync(),
+                Drives = await _dataContext.Drives.ToListAsync(),
+                FuelTypes = await _dataContext.FuelTypes.ToListAsync()    
             };
 
             return viewModel;

@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using RentCarMVC.Data;
-using RentCarMVC.Entities;
 
 namespace RentCarMVC.Features.Fuels.Commands
 {
@@ -17,7 +16,7 @@ namespace RentCarMVC.Features.Fuels.Commands
 
         public async Task<bool> Handle(DeleteFuelCommand request, CancellationToken cancellationToken)
         {
-            _dataContext.FuelType.Remove(request.Fuel);
+            _dataContext.FuelTypes.Remove(request.Fuel);
             var result = await _dataContext.SaveChangesAsync();
 
             return result > 0;

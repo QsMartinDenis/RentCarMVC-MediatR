@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using RentCarMVC.Data;
-using RentCarMVC.Entities;
 
 namespace RentCarMVC.Features.Transmissions.Queries
 {
@@ -17,7 +16,7 @@ namespace RentCarMVC.Features.Transmissions.Queries
 
         public async Task<Transmission?> Handle(GetByIdTransmissionQuery request, CancellationToken cancellationToken)
         {
-            var model = await _dataContext.Transmission.FindAsync(request.Id);
+            var model = await _dataContext.Transmissions.FindAsync(request.Id);
 
             if (model == null)
             {

@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using RentCarMVC.Data;
-using RentCarMVC.Entities;
 
 namespace RentCarMVC.Features.Fuels.Queries
 {
@@ -17,7 +16,7 @@ namespace RentCarMVC.Features.Fuels.Queries
 
         public async Task<FuelType?> Handle(GetFuelByIdQuery request, CancellationToken cancellationToken)
         {
-            var model = await _dataContext.FuelType.FindAsync(request.Id);
+            var model = await _dataContext.FuelTypes.FindAsync(request.Id);
 
             if (model == null)
             {

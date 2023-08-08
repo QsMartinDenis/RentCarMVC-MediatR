@@ -19,9 +19,9 @@ namespace RentCarMVC.Features.Roles.Queries
 
         public async Task<IEnumerable<RoleViewModel>> Handle(GetAllRoleQuery request, CancellationToken cancellationToken)
         {
-            var fuels = await _dataContext.Roles.ToListAsync();
+            var roles = await _dataContext.Roles.ToListAsync();
 
-            var viewModel = fuels.Select(x => new RoleViewModel()
+            var viewModel = roles.Select(x => new RoleViewModel()
             {
                 Id = x.Id,
                 Role = x.Name

@@ -18,7 +18,7 @@ namespace RentCarMVC.Features.StatusTypes.Queries
 
         public async Task<IEnumerable<StatusViewModel>> Handle(GetAllStatusQuery request, CancellationToken cancellationToken)
         {
-            var status = await _dataContext.Status.ToListAsync();
+            var status = await _dataContext.Statuses.ToListAsync();
 
             var viewModel = new List<StatusViewModel>();
 

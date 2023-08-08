@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using RentCarMVC.Data;
-using RentCarMVC.Entities;
 
 namespace RentCarMVC.Features.Brands.Queries
 {
@@ -17,7 +16,7 @@ namespace RentCarMVC.Features.Brands.Queries
 
         public async Task<Brand?> Handle(GetBrandByIdQuery request, CancellationToken cancellationToken)
         {
-            var model = await _dataContext.Brand.FindAsync(request.Id);
+            var model = await _dataContext.Brands.FindAsync(request.Id);
 
             if (model == null)
             {
