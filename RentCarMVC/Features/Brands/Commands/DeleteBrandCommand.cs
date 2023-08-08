@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.Extensions.Caching.Memory;
 using RentCarMVC.Data;
 
 namespace RentCarMVC.Features.Brands.Commands
@@ -8,16 +9,19 @@ namespace RentCarMVC.Features.Brands.Commands
     public class DeleteBrandCammandHandler : IRequestHandler<DeleteBrandCommand, bool>
     {
         private readonly DataContext _dataContext;
-
-        public DeleteBrandCammandHandler(DataContext dataContext)
+        private readonly IMemoryCache _cache;
+        private readonly string _cacheKey = "BrandCache";
+        public DeleteBrandCammandHandler(DataContext dataContext, IMemoryCache cache)
         {
             _dataContext = dataContext;
+            _cache = cache;
         }
 
         public async Task<bool> Handle(DeleteBrandCommand request, CancellationToken cancellationToken)
         {
             _dataContext.Brands.Remove(request.Brand);
             var result = await _dataContext.SaveChangesAsync();
+            _cache.Remove(_cacheKey);
 
             return result > 0;
         }

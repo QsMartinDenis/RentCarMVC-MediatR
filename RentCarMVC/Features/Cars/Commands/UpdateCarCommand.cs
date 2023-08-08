@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.Extensions.Caching.Memory;
 using RentCarMVC.Data;
 using RentCarMVC.Entities;
 using RentCarMVC.Features.Cars.Models;
@@ -10,10 +11,13 @@ namespace RentCarMVC.Features.Cars.Commands
     public class UpdateCarCommandHandler : IRequestHandler<UpdateCarCommand, bool>
     {
         private readonly DataContext _dataContext;
+        private readonly IMemoryCache _cache;
+        private readonly string _cacheKey = "CarCache";
 
-        public UpdateCarCommandHandler(DataContext dataContext)
+        public UpdateCarCommandHandler(DataContext dataContext, IMemoryCache cache)
         {
             _dataContext = dataContext;
+            _cache = cache;
         }
 
         public async Task<bool> Handle(UpdateCarCommand request, CancellationToken cancellationToken)
@@ -41,6 +45,7 @@ namespace RentCarMVC.Features.Cars.Commands
 
             _dataContext.Cars.Update(model);
             var result = await _dataContext.SaveChangesAsync();
+            _cache.Remove(_cacheKey);
 
             return result > 0;
         }
