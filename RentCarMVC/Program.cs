@@ -16,27 +16,12 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkSto
 builder.Services.AddLazyCache();
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<Program>());
 
-builder.Services.Configure<RazorViewEngineOptions>(options =>
+builder.Services.Configure<RazorViewEngineOptions>(o =>
 {
-    options.ViewLocationFormats.Clear();
-
-    options.ViewLocationFormats.Add("/Features/Shared/{0}" + RazorViewEngine.ViewExtension);
-
-
-    options.ViewLocationFormats.Add("/Features/Home/{1}/{0}" + RazorViewEngine.ViewExtension);
-    options.ViewLocationFormats.Add("/Features/Account/Views/{1}/{0}" + RazorViewEngine.ViewExtension);
-    options.ViewLocationFormats.Add("/Features/Booking/Views/{1}/{0}" + RazorViewEngine.ViewExtension);
-    options.ViewLocationFormats.Add("/Features/Brands/Views/{1}/{0}" + RazorViewEngine.ViewExtension);
-    options.ViewLocationFormats.Add("/Features/Cars/Views/{1}/{0}" + RazorViewEngine.ViewExtension);
-    options.ViewLocationFormats.Add("/Features/DriveTypes/Views/{1}/{0}" + RazorViewEngine.ViewExtension);
-    options.ViewLocationFormats.Add("/Features/Fuels/Views/{1}/{0}" + RazorViewEngine.ViewExtension);
-    options.ViewLocationFormats.Add("/Features/Roles/Views/{1}/{0}" + RazorViewEngine.ViewExtension);
-    options.ViewLocationFormats.Add("/Features/StatusTypes/Views/{1}/{0}" + RazorViewEngine.ViewExtension);
-    options.ViewLocationFormats.Add("/Features/Transmissions/Views/{1}/{0}" + RazorViewEngine.ViewExtension);
-    options.ViewLocationFormats.Add("/Features/Users/Views/{1}/{0}" + RazorViewEngine.ViewExtension);
-    options.ViewLocationFormats.Add("/Features/VehicleTypes/Views/{1}/{0}" + RazorViewEngine.ViewExtension);
-});  
-
+    o.ViewLocationFormats.Clear();
+    o.ViewLocationFormats.Add("/Features/{1}/{0}" + RazorViewEngine.ViewExtension);
+    o.ViewLocationFormats.Add("Features/Shared/{0}" + RazorViewEngine.ViewExtension);
+});
 
 var app = builder.Build();
 

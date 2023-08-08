@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using RentCarMVC.Features.Cars;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace RentCarMVC.Entities
+namespace RentCarMVC.Features.DriveTypes
 {
+    [Table(nameof(Drive))]
     public class Drive
     {
         [Required]

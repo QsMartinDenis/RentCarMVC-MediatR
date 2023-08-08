@@ -1,8 +1,15 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using RentCarMVC.Entities;
+using RentCarMVC.Features.Brands;
+using RentCarMVC.Features.DriveTypes;
+using RentCarMVC.Features.Fuels;
+using RentCarMVC.Features.Transmissions;
+using RentCarMVC.Features.VehicleTypes;
 
-namespace RentCarMVC.Entities
+namespace RentCarMVC.Features.Cars
 {
+    [Table(nameof(Car))]
     public class Car
     {
         [Required]
@@ -11,10 +18,10 @@ namespace RentCarMVC.Entities
         [Required, Column(TypeName = "varchar(30)")]
         public string CarName { get; set; }
         public int Year { get; set; }
-        
+
         [Required, Column(TypeName = "decimal(8,2)")]
         public decimal PricePerDay { get; set; }
-        
+
         [ForeignKey("Brand")]
         public byte BrandId { get; set; }
         public Brand Brand { get; set; }

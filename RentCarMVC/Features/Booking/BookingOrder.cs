@@ -1,9 +1,12 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using RentCarMVC.Features.Cars;
+using RentCarMVC.Features.StatusTypes;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RentCarMVC.Entities
 {
+    [Table(nameof(BookingOrder))]
     public class BookingOrder
     {
         [Required]

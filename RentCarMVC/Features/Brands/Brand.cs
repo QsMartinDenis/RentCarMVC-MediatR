@@ -1,16 +1,17 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using RentCarMVC.Features.Cars;
 
-namespace RentCarMVC.Entities
+namespace RentCarMVC.Features.Brands
 {
-    public class VehicleType
+    [Table(nameof(Brand))]
+    public class Brand
     {
         [Required]
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public byte Id { get; set; }
-        [Required, Column(TypeName = "varchar(40)")]
-        public string TypeName { get; set; }
-        public int Seats { get; set; }
+        [Required, Column(TypeName = "varchar(30)")]
+        public string BrandName { get; set; }
 
         public virtual ICollection<Car> Cars { get; set; }
     }
