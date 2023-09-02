@@ -68,7 +68,7 @@ namespace RentCarMVC.Features.Booking
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> BookingConfirm(OrderViewModel orderViewModel)
         {
-            var car = await _mediator.Send(new GetAllCarByIdQuery(orderViewModel.Id));
+            var car = await _mediator.Send(new GetAllCarByIdQuery(orderViewModel.CarId));
 
             if (car == null)
             {
